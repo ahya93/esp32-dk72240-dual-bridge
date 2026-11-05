@@ -1,4 +1,4 @@
-# EsKero ESP32 Dual-Mode Bridge (DK72240)
+# DKYS ESP32 Dual-Mode Bridge (DK72240)
 
 Repository ini berisi *source code* dan dokumentasi untuk menghubungkan **Web App (PWA)** dan **Aplikasi Resmi (DKYS)** ke **Controller DK72240** menggunakan **ESP32** sebagai jembatan (Bridge).
 
@@ -26,3 +26,8 @@ Repository ini berisi *source code* dan dokumentasi untuk menghubungkan **Web Ap
 - ESP32 (DevKit / WROOM)
 - RS485 to TTL Module (MAX485 / MAX3485) jika controller menggunakan RS485.
 - Pin: RX = 25, TX = 26 (Sesuaikan di kode). DKYS (Bypass).
+
+
+
+Contoh Penggunaan:
+https://eskero-speedo.netlify.app/
