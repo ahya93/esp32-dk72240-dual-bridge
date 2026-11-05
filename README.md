@@ -1,33 +1,31 @@
-# DKYS ESP32 Dual-Mode Bridge (DK72240)
+# ⚡ ESP32 Dual-Mode BLE Bridge for DK72240
 
-Repository ini berisi *source code* dan dokumentasi untuk menghubungkan **Web App (PWA)** dan **Aplikasi Resmi (DKYS)** ke **Controller DK72240** menggunakan **ESP32** sebagai jembatan (Bridge).
+Firmware ESP32 untuk membaca telemetri Controller DK72240 (via RS485) ke Web App (JSON), atau meneruskan data mentah ke Aplikasi DKYS (Bypass).
 
-## 🚀 Fitur Utama
+## 🚀 Konsep Dual-Mode
+ESP32 ini secara otomatis mendeteksi siapa yang terhubung:
+1. **Standalone Mode (Web App):** Jika tidak ada data dari HP, ESP32 melakukan *handshake* ke controller dan mengirim data JSON via BLE. Cocok untuk Custom HUD Speedometer.
+2. **Bypass Mode (App DKYS):** Jika HP mengirim data, ESP32 menjadi *Transparent Bridge* (meneruskan data mentah HP <-> Controller). Cocok untuk setting/diagnosa pakai aplikasi resmi DKYS.
 
-1. **Auto-Detect Dual-Mode:**
-   - **Standalone Mode (Web App):** Jika tidak ada data dari HP, ESP32 otomatis melakukan *handshake* dan *polling* telemetri dari controller, lalu mengirimnya sebagai JSON via BLE.
-   - **Bypass Mode (App DKYS):** Jika HP mengirimkan data (Hex/Command), ESP32 otomatis beralih menjadi *Transparent Bridge* (meneruskan data mentah HP <-> Controller).
-
-2. **Protokol Handshake DK72240:**
-   - Menangani pertukaran kunci sesi (Seed/Verify) secara otomatis.
-   - Deteksi kunci XOR dinamis untuk membuka *payload* telemetri.
-
-3. **Fitur Tambahan:**
-   - Perhitungan ODO & TRIP disimpan di NVS (Non-Volatile Storage) ESP32.
-   - Deteksi *Fault Flags* (kode error controller).
-   - Output JSON yang siap dikonsumsi oleh Web Bluetooth API.
+## 🛠 Fitur
+- **Auto-Detect Mode:** Tanpa perlu tombol fisik.
+- **Protokol Handshake DK72240:** Menangani CRC16 dan XOR key otomatis.
+- **Output JSON:** Siap dikonsumsi Web Bluetooth API.
+- **Contoh Web HUD:** Tersedia file HTML siap pakai (tanpa BMS) untuk melihat telemetri langsung dari HP.
+- **NVS Storage:** Menyimpan ODO & TRIP di memori ESP32.
 
 ## 📂 Struktur Repository
-- `docs/` : Penjelasan detail protokol JSON dan Handshake.
+- `example/` : Contoh Web App (HTML+JS) siap pakai untuk melihat telemetri.
+- `docs/` : Dokumentasi protokol BLE dan JSON.
 - `src/esp32/` : Source code firmware ESP32 (Arduino IDE).
-- `src/web/` : Contoh implementasi Web Bluetooth API untuk membaca JSON.
+- `src/web/` : Kode Javascript murni untuk implementasi Web Bluetooth.
 
-## ⚠️ Hardware
+## ⚠️ Hardware yang Dibutuhkan
 - ESP32 (DevKit / WROOM)
-- RS485 to TTL Module (MAX485 / MAX3485) jika controller menggunakan RS485.
-- Pin: RX = 25, TX = 26 (Sesuaikan di kode). DKYS (Bypass).
+- Modul RS485 to TTL (jika controller pakai RS485).
+- Pin: RX = 25, TX = 26.
 
-
-
-Contoh Penggunaan:
-https://eskero-speedo.netlify.app/
+## 🚀 Cara Cepat Mencoba (Quick Start)
+1. **Flash Firmware:** Buka `src/esp32/esp32_controller_dual_bridge.ino` di Arduino IDE, lalu upload ke ESP32.
+2. **Buka Web HUD:** Buka file `example/index.html` menggunakan **Google Chrome di Android**. (Pastikan file di-hosting via HTTPS atau localhost agar Web Bluetooth bisa berjalan).
+3. **Connect:** Tekan tombol "CONNECT SP-BLE" di layar, dan telemetri motor Anda akan muncul secara *real-time*.
