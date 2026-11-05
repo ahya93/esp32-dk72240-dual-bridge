@@ -1,2 +1,5 @@
-# esp32-dk72240-dual-bridge
-ESP32 firmware to bridge DK72240 EV Controller to Web Bluetooth (JSON) and Original DKYS App (Raw Bypass) with Auto-Detect.
+# ⚡ ESP32 Dual-Mode BLE Bridge for DK72240
+
+**[Standalone Web Bluetooth] ↔ [Bypass DKYS App]**
+
+Firmware ESP32 untuk membaca telemetri Controller DK72240 (via RS485) ke Web App (JSON), atau meneruskan data mentah ke Aplikasi DKYS (Bypass).
